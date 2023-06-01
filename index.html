@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Coco-Detect</title>
+    <meta content="" name="ML based coconut maturity detection">
+    <meta content="" name="ml coconut maturity detect">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Files -->
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+
+    <!-- Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!--Jquery-->
+    <script crossorigin="anonymous"
+            integrity="sha512-6DC1eE3AWg1bgitkoaRM1lhY98PxbMIbhgYCGV107aZlyzzvaWCW1nJW2vDuYQm06hXrW0As6OGKcIaAVWnHJw=="
+            referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js"></script>
+
+    <!--Axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header class="fixed-top d-flex align-items-center py-2" id="header">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <div class="logo">
+            <img alt="logo" class="img-fluid" src="assets/img/logo.png">
+            <h1><a href="">Coco-Detect</a></h1>
+        </div>
+
+    </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section class="d-flex flex-lg-row flex-sm-column align-items-center" id="hero">
+
+    <div class="container">
+        <div class="row">
+            <div class=" col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <div class="m-5 h-100 shadow rounded-3 p-5 d-flex flex-column align-content-center justify-content-center">
+                    <h2 class="text-center" data-aos="fade-up" data-aos-delay="400">Upload your image here ...</h2>
+                    <div class="text-center w-auto border rounded my-3 mx-auto shadow-sm">
+                        <img alt="..." class="img-fluid rounded uploading-img" id="img-prev"
+                             src="assets/img/logo.png">
+                    </div>
+                    <div class="d-flex justify-content-sm-around flex-column flex-lg-row" data-aos="fade-up" data-aos-delay="300">
+
+                        <!--Image Choose Button-->
+                        <label class="themed-btn" for="upload-file-input" id="btn-choose">Choose Image <i
+                                class="ms-2 bi-image"></i></label>
+
+                        <!--Upload Button-->
+                        <a class="themed-btn btn disabled" id="btn-upload" onclick="onUploadClick()">Upload Image
+                            <i class="ms-2 bi-upload" id="btn-upload-icon"></i></a>
+
+
+                        <input hidden id="upload-file-input" onchange="onImageSelect()" type="file">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
+                <img alt="" class="img-fluid animated " src="assets/img/hero-img.png">
+                <h5 data-aos="fade-up"> Simplified Harvesting with <strong>Coco-Detect</strong></h5>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<!-- End Hero -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-lg-6 text-lg-left text-center">
+                <div class="copyright">
+                    &copy; Copyright <strong>Kawshika</strong>. All Rights Reserved
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="footer-links text-lg-right text-center pt-2 pt-lg-0">
+                    <div class="credits">
+                        Designed by Kawshika
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="footer-spacer" style="height: 100px"></div>
+<!-- End Footer -->
+
+
+<!-- Vertically centered modal for response view -->
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="Response Modal" class="modal fade" id="response-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="res-modal-title">Modal title</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body" id="res-modal-body">
+                <div class="text-center border rounded m-3 ">
+                    <img alt="..." class="img-fluid rounded uploading-img" id="res-modal-image"
+                         src="assets/img/logo.png">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center flex-column"  id="res-modal-footer" >
+                <span class="border border-info rounded-5 user-select-none px-3 py-1" id="res-modal-result-type"></span>
+                <span id="res-modal-text-wrapper" class="border rounded-2 user-select-none px-3 py-1 d-flex flex-row align-items-center justify-content-center">
+                    <img alt="" id="res-modal-result-icon" class="mx-1" src="" height="20">
+                    <span id="res-modal-text"  >Text Goes here</span>
+                </span>
+                <a class="themed-btn btn" data-bs-dismiss="modal">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Up Button-->
+<a class="back-to-top d-flex align-items-center justify-content-center" href="#"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+
+<!-- ========================================================================= -->
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/axios/axios.min.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.js"></script>
+
+<!-- Main JS Files -->
+<script src="assets/js/main.js"></script>
+<script src="assets/js/actions.js"></script>
+
+
+</body>
+
+
+</html>
